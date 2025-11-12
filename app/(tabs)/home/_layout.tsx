@@ -1,7 +1,7 @@
 import { useThemedColors } from "@/src/styles/globalStyles";
 import { Stack } from "expo-router";
 
-export default function RootLayout() {
+export default function HomeLayout() {
   const colors = useThemedColors();
 
   return (
@@ -9,11 +9,14 @@ export default function RootLayout() {
       screenOptions={{
         headerStyle: { backgroundColor: colors.headerBackground },
         headerTintColor: colors.headerText,
-        contentStyle: { backgroundColor: colors.background },
       }}
     >
-      <Stack.Screen name="index" options={{ title: "Home" }} />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="index"
+        options={{
+          headerTitle: "Home",
+        }}
+      />
     </Stack>
   );
 }
