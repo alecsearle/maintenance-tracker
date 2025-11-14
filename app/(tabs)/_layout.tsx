@@ -13,8 +13,8 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.text,
+        tabBarActiveTintColor: colors.tabActive,
+        tabBarInactiveTintColor: colors.tabInactive,
 
         // Make the tab bar glassy on iOS
         tabBarBackground: () =>
@@ -43,7 +43,13 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => (
-            <PlatformIcon iosName="home" androidName="home" name="home" color={color} size={size} />
+            <PlatformIcon
+              iosName="house"
+              androidName="home"
+              name="home"
+              color={color}
+              size={size}
+            />
           ),
         }}
       />
@@ -53,7 +59,7 @@ export default function TabLayout() {
           title: "Inventory",
           tabBarIcon: ({ color, size }) => (
             <PlatformIcon
-              iosName="wrench-and-screwdriver"
+              iosName="shippingbox"
               androidName="construct"
               name="construct"
               color={color}
@@ -83,7 +89,7 @@ export default function TabLayout() {
           title: "Settings",
           tabBarIcon: ({ color, size }) => (
             <PlatformIcon
-              iosName="settings"
+              iosName="gear"
               androidName="settings"
               name="settings"
               color={color}

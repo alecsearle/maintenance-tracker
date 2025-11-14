@@ -1,4 +1,5 @@
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { SymbolView } from "expo-symbols";
 import React from "react";
 import { Platform } from "react-native";
 
@@ -20,10 +21,13 @@ export default function PlatformIcon({
   androidName,
 }: IconProps) {
   const isIOS = Platform.OS === "ios";
-  const IconLibrary = isIOS ? Ionicons : MaterialIcons;
 
   // Use different icon names if specified
   const iconName = isIOS ? iosName || name : androidName || name;
 
-  return <IconLibrary name={iconName as any} size={size} color={color} />;
+  if (isIOS) {
+    return <SymbolView name={iconName as any} size={size} tintColor={color} />;
+  }
+
+  return <MaterialIcons name={iconName as any} size={size} color={color} />;
 }

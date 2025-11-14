@@ -1,25 +1,33 @@
 import { StyleSheet, useColorScheme } from "react-native";
 
 export const lightColors = {
-  primary: "#D6B588",
+  primary: "#3A3A3A",
+  secondary: "#E5E5E5",
   background: "#F8F8F8",
   text: "#1A1A1A",
   card: "#FFFFFF",
   accent: "#8BBBBA",
+  accentMinimal: "#D6F0F0",
   border: "#E0E0E0",
   headerBackground: "#FFFFFF",
   headerText: "#1A1A1A",
+  tabActive: "#1A1A1A",
+  tabInactive: "rgba(0, 0, 0, 0.5)",
 };
 
 export const darkColors = {
-  primary: "#D6B588",
+  primary: "#E5E5E5",
+  secondary: "#3A3A3A",
   background: "#1A1A1A",
   text: "#FFFFFF",
   card: "#2C2C2C",
   accent: "#8BBBBA",
+  accentMinimal: "#D6F0F0",
   border: "#333333",
   headerBackground: "#2C2C2C",
   headerText: "#FFFFFF",
+  tabActive: "#FFFFFF",
+  tabInactive: "rgba(255, 255, 255, 0.6)",
 };
 
 export const useThemedColors = () => {
@@ -36,6 +44,8 @@ interface Colors {
   border: string;
   headerBackground: string;
   headerText: string;
+  tabActive: string;
+  tabInactive: string;
 }
 
 export const globalStyles = (colors: Colors) =>
