@@ -1,9 +1,12 @@
 import AddTool from "@/src/components/AddTool";
+import SearchBar from "@/src/components/SearchBar";
 import { globalStyles, useThemedColors } from "@/src/styles/globalStyles";
-import { useState } from "react";
+import { useRouter } from "expo-router";
+import { useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 interface Tool {
+  id: string;
   name: string;
   brand: string;
   model: string;
@@ -17,6 +20,7 @@ interface Tool {
 
 const SAMPLE_TOOLS: Tool[] = [
   {
+    id: "1",
     name: "Cordless Drill",
     brand: "DeWalt",
     model: "DCD771C2",
@@ -28,6 +32,7 @@ const SAMPLE_TOOLS: Tool[] = [
     manualName: "DCD771C2_Manual.pdf",
   },
   {
+    id: "2",
     name: "Circular Saw",
     brand: "Makita",
     model: "5007MG",
@@ -39,6 +44,7 @@ const SAMPLE_TOOLS: Tool[] = [
     manualName: "",
   },
   {
+    id: "3",
     name: "Socket Set",
     brand: "Craftsman",
     model: "230-Piece",
@@ -54,65 +60,121 @@ const SAMPLE_TOOLS: Tool[] = [
 export default function InventoryScreen() {
   const colors = useThemedColors();
   const styles = globalStyles(colors);
+  const router = useRouter();
   const [isAddToolVisible, setIsAddToolVisible] = useState(false);
   const [tools, setTools] = useState<Tool[]>(SAMPLE_TOOLS);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const handleAddTool = (tool: Tool) => {
     setTools([...tools, tool]);
   };
 
+  // Get unique categories from tools
+  const categories = useMemo(() => {
+    const uniqueCategories = new Set(tools.map((tool) => tool.category).filter(Boolean));
+    return Array.from(uniqueCategories).sort();
+  }, [tools]);
+
+  // Filter tools based on search query and selected category
+  const filteredTools = useMemo(() => {
+    return tools.filter((tool) => {
+      // Category filter
+      if (selectedCategory && tool.category !== selectedCategory) {
+        return false;
+      }
+
+      // Search query filter
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        return (
+          tool.name.toLowerCase().includes(query) ||
+          tool.brand?.toLowerCase().includes(query) ||
+          tool.model?.toLowerCase().includes(query) ||
+          tool.category?.toLowerCase().includes(query) ||
+          tool.serialNumber?.toLowerCase().includes(query)
+        );
+      }
+
+      return true;
+    });
+  }, [tools, searchQuery, selectedCategory]);
+
   return (
     <View style={styles.container}>
+      <SearchBar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        selectedCategory={selectedCategory}
+        onCategoryChange={setSelectedCategory}
+        categories={categories}
+      />
+
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 100 }}>
-        {tools.length === 0 ? (
+        {filteredTools.length === 0 ? (
           <View style={localStyles.emptyState}>
-            <Text style={[localStyles.emptyText, { color: colors.text }]}>No tools added yet</Text>
+            <Text style={[localStyles.emptyText, { color: colors.text }]}>
+              {tools.length === 0 ? "No tools added yet" : "No tools found"}
+            </Text>
             <Text style={[localStyles.emptySubtext, { color: colors.border }]}>
-              Tap the button below to add your first tool
+              {tools.length === 0
+                ? "Tap the button below to add your first tool"
+                : "Try adjusting your search or filters"}
             </Text>
           </View>
         ) : (
-          tools.map((tool, index) => (
-            <View key={index} style={[styles.card, { marginBottom: 12 }]}>
-              <Text style={[styles.title, { fontSize: 18, marginBottom: 4 }]}>{tool.name}</Text>
+          filteredTools.map((tool) => (
+            <Pressable
+              key={tool.id}
+              style={[styles.card, { marginBottom: 12 }]}
+              onPress={() =>
+                router.push({
+                  pathname: "/inventory/[id]",
+                  params: {
+                    id: tool.id,
+                    name: tool.name,
+                    brand: tool.brand,
+                    model: tool.model,
+                    serialNumber: tool.serialNumber,
+                    category: tool.category,
+                    purchaseDate: tool.purchaseDate,
+                    nfcTag: tool.nfcTag,
+                    manualUri: tool.manualUri,
+                    manualName: tool.manualName,
+                  },
+                })
+              }
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: 4,
+                }}
+              >
+                <Text style={[styles.title, { fontSize: 18, marginBottom: 0 }]}>{tool.name}</Text>
+                {tool.category && (
+                  <Text style={{ color: colors.softText, fontSize: 12, fontWeight: "500" }}>
+                    {tool.category}
+                  </Text>
+                )}
+              </View>
               {tool.brand && (
                 <Text style={{ color: colors.text, fontSize: 14 }}>
                   {tool.brand} {tool.model && `• ${tool.model}`}
                 </Text>
               )}
-              {tool.category && (
-                <Text style={{ color: colors.border, fontSize: 13, marginTop: 4 }}>
-                  {tool.category}
-                </Text>
-              )}
-              {tool.serialNumber && (
-                <Text style={{ color: colors.text, fontSize: 13, marginTop: 4 }}>
-                  SN: {tool.serialNumber}
-                </Text>
-              )}
-              {tool.purchaseDate && (
-                <Text style={{ color: colors.text, fontSize: 13 }}>
-                  Purchased: {tool.purchaseDate}
-                </Text>
-              )}
-              {tool.nfcTag && (
-                <Text style={{ color: colors.accent, fontSize: 12, marginTop: 4 }}>
-                  📱 NFC Tag Added
-                </Text>
-              )}
-              {tool.manualName && (
-                <Text style={{ color: colors.accent, fontSize: 12 }}>📄 {tool.manualName}</Text>
-              )}
-            </View>
+            </Pressable>
           ))
         )}
       </ScrollView>
 
       <Pressable
-        style={[localStyles.fab, { backgroundColor: colors.primary }]}
+        style={[localStyles.fab, { backgroundColor: colors.card, borderColor: colors.border }]}
         onPress={() => setIsAddToolVisible(true)}
       >
-        <Text style={[localStyles.fabText, { color: colors.secondary }]}>+ Add Tool</Text>
+        <Text style={[localStyles.fabText, { color: colors.text }]}>+ Add Tool</Text>
       </Pressable>
 
       <AddTool
@@ -145,11 +207,12 @@ const localStyles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderRadius: 30,
+    borderWidth: 1,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
   },
   fabText: {
     fontSize: 16,

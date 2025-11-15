@@ -16,6 +16,7 @@ import {
 } from "react-native";
 
 interface Tool {
+  id: string;
   name: string;
   brand: string;
   model: string;
@@ -63,6 +64,7 @@ const AddTool = ({ visible, onClose, onAdd }: AddToolProps) => {
   const handleAdd = () => {
     if (name.trim()) {
       onAdd({
+        id: Date.now().toString(),
         name,
         brand,
         model,
@@ -290,25 +292,6 @@ const AddTool = ({ visible, onClose, onAdd }: AddToolProps) => {
               />
             </View>
 
-            {/* NFC Tag */}
-            <View style={styles.inputGroup}>
-              <Text style={[styles.label, { color: colors.text }]}>NFC Tag</Text>
-              <Pressable
-                style={[
-                  styles.button,
-                  {
-                    backgroundColor: nfcTag ? colors.accent : colors.primary,
-                    borderColor: colors.border,
-                  },
-                ]}
-                onPress={handleAddNFC}
-              >
-                <Text style={[styles.buttonText, { color: colors.secondary }]}>
-                  {nfcTag ? "✓ NFC Tag Added" : "+ Add NFC Tag"}
-                </Text>
-              </Pressable>
-            </View>
-
             {/* Manual Upload */}
             <View style={styles.inputGroup}>
               <Text style={[styles.label, { color: colors.text }]}>Maintenance Manual</Text>
@@ -316,14 +299,35 @@ const AddTool = ({ visible, onClose, onAdd }: AddToolProps) => {
                 style={[
                   styles.button,
                   {
-                    backgroundColor: manualUri ? colors.accent : colors.primary,
+                    backgroundColor: colors.background,
                     borderColor: colors.border,
                   },
                 ]}
                 onPress={handleUploadManual}
               >
-                <Text style={[styles.buttonText, { color: colors.secondary }]}>
+                <Text
+                  style={[styles.buttonText, { color: manualUri ? colors.accent : colors.text }]}
+                >
                   {manualUri ? `✓ ${manualName}` : "+ Upload PDF Manual"}
+                </Text>
+              </Pressable>
+            </View>
+
+            {/* NFC Tag */}
+            <View style={styles.inputGroup}>
+              <Text style={[styles.label, { color: colors.text }]}>NFC Tag</Text>
+              <Pressable
+                style={[
+                  styles.button,
+                  {
+                    backgroundColor: colors.background,
+                    borderColor: colors.border,
+                  },
+                ]}
+                onPress={handleAddNFC}
+              >
+                <Text style={[styles.buttonText, { color: nfcTag ? colors.accent : colors.text }]}>
+                  {nfcTag ? "✓ NFC Tag Added" : "+ Add NFC Tag"}
                 </Text>
               </Pressable>
             </View>
@@ -332,7 +336,9 @@ const AddTool = ({ visible, onClose, onAdd }: AddToolProps) => {
             <Pressable
               style={[
                 styles.addButton,
-                { backgroundColor: name.trim() ? colors.accentMinimal : colors.border },
+                {
+                  backgroundColor: name.trim() ? colors.accent : colors.border,
+                },
                 name.trim() && styles.addButtonActive,
               ]}
               onPress={handleAdd}
@@ -341,7 +347,7 @@ const AddTool = ({ visible, onClose, onAdd }: AddToolProps) => {
               <Text
                 style={[
                   styles.addButtonText,
-                  { color: name.trim() ? colors.primary : colors.tabInactive },
+                  { color: name.trim() ? colors.card : colors.tabInactive },
                 ]}
               >
                 Add Tool
@@ -373,11 +379,11 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: "#000",
         shadowOffset: { width: 0, height: -2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 10,
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
       },
       android: {
-        elevation: 8,
+        elevation: 5,
       },
     }),
   },
@@ -459,19 +465,19 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
+        shadowOpacity: 0.15,
+        shadowRadius: 6,
       },
       android: {
-        elevation: 3,
+        elevation: 4,
       },
     }),
   },
   addButtonActive: {
     ...Platform.select({
       ios: {
-        shadowOpacity: 0.2,
-        shadowRadius: 6,
+        shadowOpacity: 0.25,
+        shadowRadius: 8,
       },
       android: {
         elevation: 6,

@@ -5,6 +5,7 @@ export const lightColors = {
   secondary: "#E5E5E5",
   background: "#F8F8F8",
   text: "#1A1A1A",
+  softText: "#c4c4c4",
   card: "#FFFFFF",
   accent: "#8BBBBA",
   accentMinimal: "#D6F0F0",
@@ -20,6 +21,7 @@ export const darkColors = {
   secondary: "#3A3A3A",
   background: "#1A1A1A",
   text: "#FFFFFF",
+  softText: "#c4c4c4",
   card: "#2C2C2C",
   accent: "#8BBBBA",
   accentMinimal: "#D6F0F0",
@@ -60,6 +62,22 @@ export const globalStyles = (colors: Colors) =>
       fontWeight: "700",
       color: colors.text,
       marginBottom: 8,
+    },
+    subTitle: {
+      fontSize: 18,
+      fontWeight: "500",
+      color: colors.text,
+      marginBottom: 16,
+    },
+    sectionTitle: {
+      fontSize: 16,
+      fontWeight: "600",
+      color: colors.text,
+    },
+    text: {
+      fontSize: 16,
+      color: colors.text,
+      marginBottom: 12,
     },
     card: {
       backgroundColor: colors.card,
