@@ -44,7 +44,7 @@ const ToolDetails = ({ params }: ToolDetailsProps) => {
   return (
     <View style={localStyles.container}>
       <View style={localStyles.headerRow}>
-        <Text style={[styles.subTitle, localStyles.toolName]}>{tool.name}</Text>
+        <Text style={[styles.title, localStyles.toolName]}>{tool.name}</Text>
         <Pressable onPress={() => setShowInfoModal(true)} style={localStyles.infoButton}>
           <PlatformIcon
             iosName="info.circle"
@@ -78,34 +78,34 @@ const ToolDetails = ({ params }: ToolDetailsProps) => {
               </Pressable>
             </View>
 
-            <View style={localStyles.infoRow}>
+            <View style={[localStyles.infoRow, { borderBottomColor: colors.border }]}>
               <Text style={[localStyles.infoLabel, { color: colors.text }]}>Name:</Text>
               <Text style={[localStyles.infoValue, { color: colors.text }]}>{tool.name}</Text>
             </View>
 
             {tool.brand && (
-              <View style={localStyles.infoRow}>
+              <View style={[localStyles.infoRow, { borderBottomColor: colors.border }]}>
                 <Text style={[localStyles.infoLabel, { color: colors.text }]}>Brand:</Text>
                 <Text style={[localStyles.infoValue, { color: colors.text }]}>{tool.brand}</Text>
               </View>
             )}
 
             {tool.model && (
-              <View style={localStyles.infoRow}>
+              <View style={[localStyles.infoRow, { borderBottomColor: colors.border }]}>
                 <Text style={[localStyles.infoLabel, { color: colors.text }]}>Model:</Text>
                 <Text style={[localStyles.infoValue, { color: colors.text }]}>{tool.model}</Text>
               </View>
             )}
 
             {tool.category && (
-              <View style={localStyles.infoRow}>
+              <View style={[localStyles.infoRow, { borderBottomColor: colors.border }]}>
                 <Text style={[localStyles.infoLabel, { color: colors.text }]}>Category:</Text>
                 <Text style={[localStyles.infoValue, { color: colors.text }]}>{tool.category}</Text>
               </View>
             )}
 
             {tool.serialNumber && (
-              <View style={localStyles.infoRow}>
+              <View style={[localStyles.infoRow, { borderBottomColor: colors.border }]}>
                 <Text style={[localStyles.infoLabel, { color: colors.text }]}>Serial Number:</Text>
                 <Text style={[localStyles.infoValue, { color: colors.text }]}>
                   {tool.serialNumber}
@@ -114,7 +114,7 @@ const ToolDetails = ({ params }: ToolDetailsProps) => {
             )}
 
             {tool.purchaseDate && (
-              <View style={localStyles.infoRow}>
+              <View style={[localStyles.infoRow, { borderBottomColor: colors.border }]}>
                 <Text style={[localStyles.infoLabel, { color: colors.text }]}>Purchase Date:</Text>
                 <Text style={[localStyles.infoValue, { color: colors.text }]}>
                   {tool.purchaseDate}
@@ -123,7 +123,7 @@ const ToolDetails = ({ params }: ToolDetailsProps) => {
             )}
 
             {tool.nfcTag && (
-              <View style={localStyles.infoRow}>
+              <View style={[localStyles.infoRow, { borderBottomColor: colors.border }]}>
                 <Text style={[localStyles.infoLabel, { color: colors.text }]}>NFC Tag ID:</Text>
                 <Text style={[localStyles.infoValue, { color: colors.text }]}>{tool.nfcTag}</Text>
               </View>
@@ -195,7 +195,6 @@ const localStyles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#F0F0F0",
   },
   infoLabel: {
     fontSize: 14,

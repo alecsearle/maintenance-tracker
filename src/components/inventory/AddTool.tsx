@@ -1,5 +1,5 @@
+import DateTimePickerComponent from "@/src/components/common/DateTimePickerComponent";
 import { useThemedColors } from "@/src/styles/globalStyles";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import * as DocumentPicker from "expo-document-picker";
 import React, { useState } from "react";
 import {
@@ -138,29 +138,34 @@ const AddTool = ({ visible, onClose, onAdd }: AddToolProps) => {
   return (
     <Modal
       visible={visible}
-      transparent
-      animationType={Platform.OS === "ios" ? "slide" : "fade"}
-      onRequestClose={onClose}
+      animationType="slide"
+      presentationStyle="pageSheet"
+      onRequestClose={handleCancel}
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.modalOverlay}
+        style={[styles.modalContainer, { backgroundColor: colors.background }]}
       >
-        <Pressable style={styles.backdrop} onPress={onClose} />
+        {/* Modal Header */}
+        <View
+          style={[
+            styles.modalHeader,
+            { backgroundColor: colors.card, borderBottomColor: colors.border },
+          ]}
+        >
+          <Pressable onPress={handleCancel} style={styles.cancelButton}>
+            <Text style={[styles.closeIcon, { color: colors.text }]}>✕</Text>
+          </Pressable>
+          <Text style={[styles.modalTitle, { color: colors.text }]}>Add New Tool</Text>
+          <View style={styles.placeholder} />
+        </View>
 
-        <View style={[styles.bottomSheet, { backgroundColor: colors.card }]}>
-          {/* Handle bar */}
-          <View style={[styles.handleBar, { backgroundColor: colors.border }]} />
-
-          {/* Header */}
-          <View style={[styles.header, { borderBottomColor: colors.border }]}>
-            <Text style={[styles.title, { color: colors.text }]}>Add New Tool</Text>
-            <Pressable onPress={handleCancel}>
-              <Text style={[styles.cancelButton, { color: colors.primary }]}>Cancel</Text>
-            </Pressable>
-          </View>
-
-          <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          style={styles.scrollView}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.content}>
             {/* Tool Name */}
             <View style={styles.inputGroup}>
               <Text style={[styles.label, { color: colors.text }]}>Tool Name *</Text>
@@ -275,20 +280,13 @@ const AddTool = ({ visible, onClose, onAdd }: AddToolProps) => {
                 </View>
               )}
             </View>
-
             {/* Purchase Date */}
             <View style={styles.inputGroup}>
               <Text style={[styles.label, { color: colors.text }]}>Purchase Date</Text>
-
-              <DateTimePicker
+              <DateTimePickerComponent
                 value={selectedDate}
-                mode="date"
-                display="default"
-                onChange={(event, date) => {
-                  if (date) {
-                    setSelectedDate(date);
-                  }
-                }}
+                onChange={setSelectedDate}
+                maximumDate={new Date()}
               />
             </View>
 
@@ -353,66 +351,44 @@ const AddTool = ({ visible, onClose, onAdd }: AddToolProps) => {
                 Add Tool
               </Text>
             </Pressable>
-          </ScrollView>
-        </View>
+          </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  modalOverlay: {
+  modalContainer: {
     flex: 1,
-    justifyContent: "flex-end",
   },
-  backdrop: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  bottomSheet: {
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingTop: 8,
-    paddingBottom: Platform.OS === "ios" ? 34 : 16,
-    height: "90%",
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: -2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 5,
-      },
-    }),
-  },
-  handleBar: {
-    width: 40,
-    height: 4,
-    borderRadius: 2,
-    alignSelf: "center",
-    marginBottom: 8,
-  },
-  header: {
+  modalHeader: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 16,
     paddingHorizontal: 20,
-    paddingBottom: 16,
     borderBottomWidth: 1,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "700",
-  },
   cancelButton: {
-    fontSize: 16,
+    padding: 4,
+  },
+  closeIcon: {
+    fontSize: 24,
     fontWeight: "600",
   },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  placeholder: {
+    width: 32,
+  },
+  scrollView: {
+    flex: 1,
+  },
   content: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    padding: 20,
   },
   inputGroup: {
     marginBottom: 20,

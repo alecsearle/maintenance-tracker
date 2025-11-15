@@ -1,4 +1,4 @@
-import AddTool from "@/src/components/AddTool";
+import AddTool from "@/src/components/inventory/AddTool";
 import SearchBar from "@/src/components/SearchBar";
 import { globalStyles, useThemedColors } from "@/src/styles/globalStyles";
 import { useRouter } from "expo-router";

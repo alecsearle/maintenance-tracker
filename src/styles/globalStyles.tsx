@@ -14,6 +14,13 @@ export const lightColors = {
   headerText: "#1A1A1A",
   tabActive: "#1A1A1A",
   tabInactive: "rgba(0, 0, 0, 0.5)",
+  // Session button colors
+  green: "#7CB342",
+  greenBg: "#E8F5E9",
+  yellow: "#FFA726",
+  yellowBg: "#FFF3E0",
+  red: "#E57373",
+  redBg: "#FFEBEE",
 };
 
 export const darkColors = {
@@ -30,6 +37,13 @@ export const darkColors = {
   headerText: "#FFFFFF",
   tabActive: "#FFFFFF",
   tabInactive: "rgba(255, 255, 255, 0.6)",
+  // Session button colors
+  green: "#81C784",
+  greenBg: "#2E7D32",
+  yellow: "#FFB74D",
+  yellowBg: "#F57C00",
+  red: "#E57373",
+  redBg: "#C62828",
 };
 
 export const useThemedColors = () => {
