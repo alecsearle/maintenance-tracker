@@ -1,5 +1,5 @@
-import PlatformIcon from "@/src/components/PlatformIcon";
-import { globalStyles, useThemedColors } from "@/src/styles/globalStyles";
+import PlatformIcon from "@/components/PlatformIcon";
+import { globalStyles, useThemedColors } from "@/styles/globalStyles";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";

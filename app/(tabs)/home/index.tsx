@@ -1,8 +1,8 @@
-import ActiveSessions from "@/src/components/home/ActiveSessions";
-import MaintenanceAlerts from "@/src/components/home/MaintenanceAlerts";
-import StatsCard from "@/src/components/home/StatsCard";
-import PlatformIcon from "@/src/components/PlatformIcon";
-import { globalStyles, useThemedColors } from "@/src/styles/globalStyles";
+import ActiveSessions from "@/components/home/ActiveSessions";
+import MaintenanceAlerts from "@/components/home/MaintenanceAlerts";
+import StatsCard from "@/components/home/StatsCard";
+import PlatformIcon from "@/components/PlatformIcon";
+import { globalStyles, useThemedColors } from "@/styles/globalStyles";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {

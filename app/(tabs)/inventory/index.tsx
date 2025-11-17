@@ -1,6 +1,6 @@
-import AddTool from "@/src/components/inventory/AddTool";
-import SearchBar from "@/src/components/SearchBar";
-import { globalStyles, useThemedColors } from "@/src/styles/globalStyles";
+import AddTool from "@/components/inventory/AddTool";
+import SearchBar from "@/components/SearchBar";
+import { globalStyles, useThemedColors } from "@/styles/globalStyles";
 import { useRouter } from "expo-router";
 import { useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";

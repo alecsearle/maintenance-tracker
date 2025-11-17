@@ -1,4 +1,4 @@
-import { useThemedColors } from "@/src/styles/globalStyles";
+import { useThemedColors } from "@/styles/globalStyles";
 import { Stack } from "expo-router";
 
 export default function InventoryLayout() {

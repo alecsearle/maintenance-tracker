@@ -1,5 +1,5 @@
-import PlatformIcon from "@/src/components/PlatformIcon";
-import { useThemedColors } from "@/src/styles/globalStyles";
+import PlatformIcon from "@/components/PlatformIcon";
+import { useThemedColors } from "@/styles/globalStyles";
 import { BlurView } from "expo-blur";
 import { Tabs } from "expo-router";
 import { Platform, useColorScheme } from "react-native";

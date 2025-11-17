@@ -1,6 +1,6 @@
-import UsageStatistics from "@/src/components/inventory/UsageStatistics";
-import SessionManagement from "@/src/components/session/SessionManagement";
-import { useThemedColors } from "@/src/styles/globalStyles";
+import UsageStatistics from "@/components/inventory/UsageStatistics";
+import SessionManagement from "@/components/session/SessionManagement";
+import { useThemedColors } from "@/styles/globalStyles";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 interface DetailsTabProps {

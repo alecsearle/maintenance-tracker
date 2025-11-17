@@ -1,4 +1,4 @@
-import { useThemedColors } from "@/src/styles/globalStyles";
+import { useThemedColors } from "@/styles/globalStyles";
 import { StyleSheet, Text, View } from "react-native";
 import ManualSession from "./ManualSession";
 import StopWatch from "./StopWatch";

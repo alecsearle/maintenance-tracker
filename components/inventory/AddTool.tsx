@@ -1,5 +1,5 @@
-import DateTimePickerComponent from "@/src/components/common/DateTimePickerComponent";
-import { useThemedColors } from "@/src/styles/globalStyles";
+import DateTimePickerComponent from "@/components/common/DateTimePickerComponent";
+import { useThemedColors } from "@/styles/globalStyles";
 import * as DocumentPicker from "expo-document-picker";
 import React, { useState } from "react";
 import {

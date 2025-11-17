@@ -1,7 +1,7 @@
 //////// STOP WATCH LOGIC IS EXTREMELY BROKEN /////////
 
-import PlatformIcon from "@/src/components/PlatformIcon";
-import { useThemedColors } from "@/src/styles/globalStyles";
+import PlatformIcon from "@/components/PlatformIcon";
+import { useThemedColors } from "@/styles/globalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";

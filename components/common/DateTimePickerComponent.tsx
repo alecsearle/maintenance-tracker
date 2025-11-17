@@ -1,4 +1,4 @@
-import { useThemedColors } from "@/src/styles/globalStyles";
+import { useThemedColors } from "@/styles/globalStyles";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";

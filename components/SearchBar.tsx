@@ -1,5 +1,5 @@
-import PlatformIcon from "@/src/components/PlatformIcon";
-import { useThemedColors } from "@/src/styles/globalStyles";
+import PlatformIcon from "@/components/PlatformIcon";
+import { useThemedColors } from "@/styles/globalStyles";
 import { useState } from "react";
 import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 

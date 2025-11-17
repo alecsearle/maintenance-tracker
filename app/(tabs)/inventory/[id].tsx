@@ -1,8 +1,8 @@
-import DetailsTab from "@/src/components/inventory/DetailsTab";
-import MaintenanceTab from "@/src/components/inventory/MaintenanceTab";
-import ToolDetails from "@/src/components/inventory/ToolDetails";
-import UsageTab from "@/src/components/inventory/UsageTab";
-import { globalStyles, useThemedColors } from "@/src/styles/globalStyles";
+import DetailsTab from "@/components/inventory/DetailsTab";
+import MaintenanceTab from "@/components/inventory/MaintenanceTab";
+import ToolDetails from "@/components/inventory/ToolDetails";
+import UsageTab from "@/components/inventory/UsageTab";
+import { globalStyles, useThemedColors } from "@/styles/globalStyles";
 import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
