@@ -97,18 +97,10 @@ const ManualSession = ({ onSave }: ManualSessionProps) => {
   return (
     <>
       {/* Trigger Button */}
-      <Pressable
-        style={[styles.triggerButton, { backgroundColor: colors.card, borderColor: colors.border }]}
-        onPress={() => setModalVisible(true)}
-      >
-        <PlatformIcon
-          iosName="plus.circle"
-          androidName="add-circle-outline"
-          name="add-circle-outline"
-          size={20}
-          color={colors.text}
-        />
-        <Text style={[styles.triggerButtonText, { color: colors.text }]}>Add Manual Session</Text>
+      <Pressable style={styles.triggerButton} onPress={() => setModalVisible(true)}>
+        <Text style={[styles.triggerButtonText, { color: colors.softText }]}>
+          or add manual session
+        </Text>
       </Pressable>
 
       {/* Modal */}
@@ -318,18 +310,13 @@ const ManualSession = ({ onSave }: ManualSessionProps) => {
 
 const styles = StyleSheet.create({
   triggerButton: {
-    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 8,
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    borderWidth: 1,
+    paddingVertical: 8,
   },
   triggerButtonText: {
-    fontSize: 16,
-    fontWeight: "500",
+    fontSize: 13,
+    fontWeight: "400",
   },
   modalContainer: {
     flex: 1,

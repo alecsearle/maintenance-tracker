@@ -3,10 +3,10 @@ import { StyleSheet, Text, View } from "react-native";
 export default function MaintainScreen() {
   return (
     <View style={styles.container}>
-      <Text>Tab [HOME]</Text>
+      <Text>Tab [MAINTAIN]</Text>
       <Text>Create a dashboard at the top</Text>
-      <Text>Display key metrics and insights</Text>
-      <Text>Show all tools</Text>
+      <Text>Display tools needing maintenance</Text>
+      <Text>Show upcoming maintenance</Text>
     </View>
   );
 }

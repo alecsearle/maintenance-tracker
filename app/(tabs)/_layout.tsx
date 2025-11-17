@@ -74,7 +74,7 @@ export default function TabLayout() {
           title: "Maintain",
           tabBarIcon: ({ color, size }) => (
             <PlatformIcon
-              iosName="hammer"
+              iosName="wrench.adjustable"
               androidName="build"
               name="build"
               color={color}

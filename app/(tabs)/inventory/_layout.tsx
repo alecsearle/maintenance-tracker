@@ -9,7 +9,6 @@ export default function InventoryLayout() {
       screenOptions={{
         headerStyle: { backgroundColor: colors.headerBackground },
         headerTintColor: colors.headerText,
-        headerTitleAlign: "left",
       }}
     >
       <Stack.Screen

@@ -92,7 +92,7 @@ const MaintenanceTab = ({ toolId, manualName }: MaintenanceTabProps) => {
       )}
 
       {/* Basic Information */}
-      <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
+      {/* <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
         <View style={styles.cardHeader}>
           <PlatformIcon
             iosName="info.circle"
@@ -119,6 +119,78 @@ const MaintenanceTab = ({ toolId, manualName }: MaintenanceTabProps) => {
           <Text style={[styles.infoLabel, { color: colors.softText }]}>NFC Tag ID</Text>
           <Text style={[styles.infoValue, { color: colors.text }]}>nfc-001</Text>
         </View>
+      </View> */}
+
+      {/* Maintenance History */}
+      <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
+        <View style={styles.cardHeader}>
+          <PlatformIcon
+            iosName="clock.fill"
+            androidName="history"
+            name="history"
+            color={colors.accent}
+            size={20}
+          />
+          <Text style={[styles.cardTitle, { color: colors.text }]}>Maintenance History</Text>
+        </View>
+        {logs.length === 0 ? (
+          <View style={styles.emptyState}>
+            <Text style={[styles.emptyText, { color: colors.softText }]}>
+              No maintenance logs yet
+            </Text>
+          </View>
+        ) : (
+          logs.map((log) => (
+            <View key={log.id} style={[styles.logItem, { borderColor: colors.border }]}>
+              <View style={styles.logHeader}>
+                <View
+                  style={[styles.typeBadge, { backgroundColor: getTypeColor(log.type) + "20" }]}
+                >
+                  <Text style={[styles.typeText, { color: getTypeColor(log.type) }]}>
+                    {getTypeLabel(log.type)}
+                  </Text>
+                </View>
+                <Text style={[styles.logDate, { color: colors.softText }]}>{log.date}</Text>
+              </View>
+              <Text style={[styles.logDescription, { color: colors.text }]}>{log.description}</Text>
+              {log.cost && (
+                <Text style={[styles.logCost, { color: colors.softText }]}>Cost: {log.cost}</Text>
+              )}
+            </View>
+          ))
+        )}
+        <Pressable style={[styles.addLogButton, { borderColor: colors.border }]}>
+          <Text style={[styles.addLogButtonText, { color: colors.accent }]}>
+            + Add Maintenance Log
+          </Text>
+        </Pressable>
+      </View>
+
+      {/* Maintenance Schedule */}
+      <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
+        <View style={styles.cardHeader}>
+          <PlatformIcon
+            iosName="calendar"
+            androidName="calendar"
+            name="calendar"
+            color={colors.accent}
+            size={20}
+          />
+          <Text style={[styles.cardTitle, { color: colors.text }]}>Maintenance Schedule</Text>
+        </View>
+        <Text style={[styles.scheduleText, { color: colors.softText }]}>
+          Set up maintenance reminders and schedules
+        </Text>
+        <Pressable
+          style={[
+            styles.scheduleButton,
+            { backgroundColor: colors.background, borderColor: colors.border },
+          ]}
+        >
+          <Text style={[styles.scheduleButtonText, { color: colors.accent }]}>
+            Configure Schedule
+          </Text>
+        </Pressable>
       </View>
 
       {/* Maintenance Manual */}
@@ -180,78 +252,6 @@ const MaintenanceTab = ({ toolId, manualName }: MaintenanceTabProps) => {
         </Pressable>
       </View>
 
-      {/* Maintenance Schedule */}
-      <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-        <View style={styles.cardHeader}>
-          <PlatformIcon
-            iosName="calendar"
-            androidName="calendar"
-            name="calendar"
-            color={colors.accent}
-            size={20}
-          />
-          <Text style={[styles.cardTitle, { color: colors.text }]}>Maintenance Schedule</Text>
-        </View>
-        <Text style={[styles.scheduleText, { color: colors.softText }]}>
-          Set up maintenance reminders and schedules
-        </Text>
-        <Pressable
-          style={[
-            styles.scheduleButton,
-            { backgroundColor: colors.background, borderColor: colors.border },
-          ]}
-        >
-          <Text style={[styles.scheduleButtonText, { color: colors.accent }]}>
-            Configure Schedule
-          </Text>
-        </Pressable>
-      </View>
-
-      {/* Maintenance History */}
-      <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-        <View style={styles.cardHeader}>
-          <PlatformIcon
-            iosName="clock.fill"
-            androidName="history"
-            name="history"
-            color={colors.accent}
-            size={20}
-          />
-          <Text style={[styles.cardTitle, { color: colors.text }]}>Maintenance History</Text>
-        </View>
-        {logs.length === 0 ? (
-          <View style={styles.emptyState}>
-            <Text style={[styles.emptyText, { color: colors.softText }]}>
-              No maintenance logs yet
-            </Text>
-          </View>
-        ) : (
-          logs.map((log) => (
-            <View key={log.id} style={[styles.logItem, { borderColor: colors.border }]}>
-              <View style={styles.logHeader}>
-                <View
-                  style={[styles.typeBadge, { backgroundColor: getTypeColor(log.type) + "20" }]}
-                >
-                  <Text style={[styles.typeText, { color: getTypeColor(log.type) }]}>
-                    {getTypeLabel(log.type)}
-                  </Text>
-                </View>
-                <Text style={[styles.logDate, { color: colors.softText }]}>{log.date}</Text>
-              </View>
-              <Text style={[styles.logDescription, { color: colors.text }]}>{log.description}</Text>
-              {log.cost && (
-                <Text style={[styles.logCost, { color: colors.softText }]}>Cost: {log.cost}</Text>
-              )}
-            </View>
-          ))
-        )}
-        <Pressable style={[styles.addLogButton, { borderColor: colors.border }]}>
-          <Text style={[styles.addLogButtonText, { color: colors.accent }]}>
-            + Add Maintenance Log
-          </Text>
-        </Pressable>
-      </View>
-
       {/* Warranty Information */}
       <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
         <View style={styles.cardHeader}>
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    paddingBottom: 20,
+    paddingBottom: 100,
   },
   alertCard: {
     borderRadius: 12,

@@ -1,3 +1,5 @@
+//////// STOP WATCH LOGIC IS EXTREMELY BROKEN /////////
+
 import PlatformIcon from "@/src/components/PlatformIcon";
 import { useThemedColors } from "@/src/styles/globalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -171,17 +173,10 @@ const StopWatch = ({ toolId, onTimeUpdate }: StopWatchProps) => {
     return (
       <View style={styles.container}>
         <Pressable
-          style={[styles.button, styles.startButton, { backgroundColor: colors.green }]}
+          style={[styles.startButton, { backgroundColor: colors.accent }]}
           onPress={handleStart}
         >
-          <PlatformIcon
-            iosName="play.circle.fill"
-            androidName="play-circle-filled"
-            name="play-circle-filled"
-            color="#FFFFFF"
-            size={24}
-          />
-          <Text style={[styles.buttonText, { color: "#FFFFFF" }]}>Start Session</Text>
+          <Text style={[styles.startButtonText, { color: "#FFFFFF" }]}>Start Session</Text>
         </Pressable>
       </View>
     );
@@ -201,8 +196,7 @@ const StopWatch = ({ toolId, onTimeUpdate }: StopWatchProps) => {
         {isRunning ? (
           <Pressable
             style={[
-              styles.button,
-              styles.pauseButton,
+              styles.controlButton,
               { backgroundColor: colors.yellowBg, borderColor: colors.yellow },
             ]}
             onPress={handlePause}
@@ -212,13 +206,16 @@ const StopWatch = ({ toolId, onTimeUpdate }: StopWatchProps) => {
               androidName="pause"
               name="pause"
               color={colors.yellow}
-              size={24}
+              size={20}
             />
-            <Text style={[styles.buttonText, { color: colors.yellow }]}>Pause</Text>
+            <Text style={[styles.controlButtonText, { color: colors.yellow }]}>Pause</Text>
           </Pressable>
         ) : (
           <Pressable
-            style={[styles.button, styles.startButton, { backgroundColor: colors.green }]}
+            style={[
+              styles.controlButton,
+              { backgroundColor: colors.accent, borderColor: colors.accent },
+            ]}
             onPress={() => setIsRunning(true)}
           >
             <PlatformIcon
@@ -226,18 +223,14 @@ const StopWatch = ({ toolId, onTimeUpdate }: StopWatchProps) => {
               androidName="play-arrow"
               name="play-arrow"
               color="#FFFFFF"
-              size={24}
+              size={20}
             />
-            <Text style={[styles.buttonText, { color: "#FFFFFF" }]}>Resume</Text>
+            <Text style={[styles.controlButtonText, { color: "#FFFFFF" }]}>Resume</Text>
           </Pressable>
         )}
 
         <Pressable
-          style={[
-            styles.button,
-            styles.endButton,
-            { backgroundColor: colors.redBg, borderColor: colors.red },
-          ]}
+          style={[styles.controlButton, { backgroundColor: colors.redBg, borderColor: colors.red }]}
           onPress={handleEndSession}
         >
           <PlatformIcon
@@ -245,9 +238,9 @@ const StopWatch = ({ toolId, onTimeUpdate }: StopWatchProps) => {
             androidName="stop"
             name="stop"
             color={colors.red}
-            size={24}
+            size={20}
           />
-          <Text style={[styles.buttonText, { color: colors.red }]}>End Session</Text>
+          <Text style={[styles.controlButtonText, { color: colors.red }]}>End</Text>
         </Pressable>
       </View>
     </View>
@@ -273,35 +266,39 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     marginTop: 12,
   },
+  startButton: {
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  startButtonText: {
+    fontSize: 16,
+    fontWeight: "600",
+  },
   controls: {
     flexDirection: "row",
-    gap: 12,
+    gap: 10,
   },
-  button: {
+  controlButton: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    gap: 8,
-    minWidth: 120,
-  },
-  startButton: {
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  pauseButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
     borderWidth: 1,
+    gap: 6,
+    flex: 1,
   },
-  endButton: {
-    borderWidth: 1,
-  },
-  buttonText: {
-    fontSize: 16,
+  controlButtonText: {
+    fontSize: 14,
     fontWeight: "600",
   },
 });

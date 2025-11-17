@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sessionListContent: {
-    paddingBottom: 80,
+    paddingBottom: 100,
   },
   sectionTitle: {
     fontSize: 16,
