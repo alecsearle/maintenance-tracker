@@ -20,8 +20,8 @@ export default function InventoryLayout() {
       <Stack.Screen
         name="[id]"
         options={{
-          headerTitle: "",
-          headerBackTitle: "",
+          headerTitle: "Tool Details",
+          headerBackButtonDisplayMode: "minimal",
         }}
       />
     </Stack>

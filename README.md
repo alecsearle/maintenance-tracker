@@ -10,8 +10,19 @@ Maintenance Tracker is created to fill the gap between the manual labor and mech
 
 ### Dark Mode
 
-# Nots
+A specific HIG feature I wanted to implement from the start was dark mode.
+A few specific features of dark mode HIG were sought after and are as follows:
 
-Remove src folder
-Fix expo router navigation https://docs.expo.dev/router/basics/common-navigation-patterns/
-Break down globalStyles into reusable components (i.e. Title, SubTitle, Card etc.)
+- Avoid offering an app-specific appearance setting.
+- Test your content to make sure that it remains comfortably legible in both appearance modes.
+- Aim for sufficient color contrast in all appearances.
+
+### SF Symbols
+
+An itentional HIG design choice I wanted to follow is the use of SF Symbols for the devices running my app on iOS. The main reason is to use something familiar and clean. The symbols automatically change depending on the theme of the device. Additionally, there are different rendering modes that can be used to give the application more depth. I have not messed with rendering modes yet but will soon.
+
+# Notes
+
+- Remove src folder
+- Fix expo router navigation https://docs.expo.dev/router/basics/common-navigation-patterns/
+- Break down globalStyles into reusable components (i.e. Title, SubTitle, Card etc.)

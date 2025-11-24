@@ -12,7 +12,8 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,
+        headerStyle: { backgroundColor: colors.headerBackground },
+        headerTintColor: colors.headerText,
         tabBarActiveTintColor: colors.tabActive,
         tabBarInactiveTintColor: colors.tabInactive,
 
@@ -21,8 +22,6 @@ export default function TabLayout() {
           Platform.OS === "ios" ? (
             <BlurView tint={isDark ? "dark" : "light"} intensity={80} style={{ flex: 1 }} />
           ) : null,
-
-        // Make tab bar translucent
         tabBarStyle: {
           position: "absolute",
           backgroundColor:
@@ -33,13 +32,11 @@ export default function TabLayout() {
               : isDark
               ? "#2C2C2C"
               : "#FFFFFF",
-          borderTopWidth: 0,
-          elevation: 0,
         },
       }}
     >
       <Tabs.Screen
-        name="home"
+        name="index"
         options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => (
@@ -56,7 +53,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="inventory"
         options={{
-          title: "Inventory",
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <PlatformIcon
               iosName="shippingbox"
