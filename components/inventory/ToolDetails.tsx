@@ -1,3 +1,4 @@
+import Title from "@/components/common/Title";
 import PlatformIcon from "@/components/PlatformIcon";
 import { globalStyles, useThemedColors } from "@/styles/globalStyles";
 import { useState } from "react";
@@ -44,7 +45,7 @@ const ToolDetails = ({ params }: ToolDetailsProps) => {
   return (
     <View style={localStyles.container}>
       <View style={localStyles.headerRow}>
-        <Text style={[styles.title, localStyles.toolName]}>{tool.name}</Text>
+        <Title>{tool.name}</Title>
         <Pressable onPress={() => setShowInfoModal(true)} style={localStyles.infoButton}>
           <PlatformIcon
             iosName="info.circle"

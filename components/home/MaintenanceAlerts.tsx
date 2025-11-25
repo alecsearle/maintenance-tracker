@@ -53,7 +53,7 @@ const MaintenanceAlerts = () => {
           style={[
             styles.alertCard,
             {
-              backgroundColor: alert.type === "overdue" ? colors.redBg : colors.yellowBg,
+              // backgroundColor: alert.type === "overdue" ? colors.redBg : colors.yellowBg,
               borderColor: alert.type === "overdue" ? colors.red : colors.yellow,
             },
           ]}

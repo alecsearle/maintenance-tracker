@@ -1,3 +1,4 @@
+import Title from "@/components/common/Title";
 import AddTool from "@/components/inventory/AddTool";
 import SearchBar from "@/components/SearchBar";
 import { globalStyles, useThemedColors } from "@/styles/globalStyles";
@@ -153,7 +154,7 @@ export default function InventoryScreen() {
                   marginBottom: 4,
                 }}
               >
-                <Text style={[styles.title, { fontSize: 18, marginBottom: 0 }]}>{tool.name}</Text>
+                <Title fontSize={18}>{tool.name}</Title>
                 {tool.category && (
                   <Text style={{ color: colors.softText, fontSize: 12, fontWeight: "500" }}>
                     {tool.category}

@@ -71,12 +71,6 @@ export const globalStyles = (colors: Colors) =>
       backgroundColor: colors.background,
       padding: 16,
     },
-    title: {
-      fontSize: 24,
-      fontWeight: "700",
-      color: colors.text,
-      marginBottom: 8,
-    },
     subTitle: {
       fontSize: 18,
       fontWeight: "500",
