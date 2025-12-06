@@ -53,6 +53,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="inventory"
         options={{
+          title: "Inventory",
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <PlatformIcon

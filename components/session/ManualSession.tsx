@@ -1,4 +1,5 @@
 import { useThemedColors } from "@/styles/globalStyles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
 import {
@@ -15,6 +16,7 @@ import {
 import PlatformIcon from "../PlatformIcon";
 
 interface ManualSessionProps {
+  toolId: string;
   onSave?: (sessionData: {
     date: string;
     hours: number;
@@ -25,7 +27,7 @@ interface ManualSessionProps {
   }) => void;
 }
 
-const ManualSession = ({ onSave }: ManualSessionProps) => {
+const ManualSession = ({ toolId, onSave }: ManualSessionProps) => {
   const colors = useThemedColors();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -42,7 +44,7 @@ const ManualSession = ({ onSave }: ManualSessionProps) => {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const h = parseInt(hours) || 0;
     const m = parseInt(minutes) || 0;
     const s = parseInt(seconds) || 0;
@@ -52,20 +54,64 @@ const ManualSession = ({ onSave }: ManualSessionProps) => {
       return; // Don't save if no time entered
     }
 
-    if (onSave) {
-      onSave({
-        date: selectedDate.toLocaleDateString(),
-        hours: h,
-        minutes: m,
-        seconds: s,
-        totalSeconds,
-        note: note.trim(),
-      });
+    // Format duration string
+    let duration = "";
+    if (h > 0) {
+      duration += `${h}h `;
     }
+    if (m > 0 || h > 0) {
+      duration += `${m}m`;
+    }
+    if (h === 0 && m === 0) {
+      duration += `${s}s`;
+    }
+    duration = duration.trim();
 
-    // Reset form and close modal
-    resetForm();
-    setModalVisible(false);
+    const timestamp = selectedDate.getTime();
+    const newSession = {
+      id: `session_${timestamp}_manual`,
+      date: selectedDate.toLocaleDateString(),
+      timestamp: timestamp,
+      duration: duration,
+      hours: totalSeconds / 3600, // Convert to decimal hours
+      note: note.trim() || undefined,
+      source: "manual",
+    };
+
+    try {
+      // Load existing sessions
+      const sessionsKey = `@sessions_${toolId}`;
+      const existingSessionsJson = await AsyncStorage.getItem(sessionsKey);
+      const existingSessions = existingSessionsJson ? JSON.parse(existingSessionsJson) : [];
+
+      // Add new session and sort by timestamp (most recent first)
+      const updatedSessions = [newSession, ...existingSessions].sort(
+        (a, b) => b.timestamp - a.timestamp
+      );
+
+      // Save back to storage
+      await AsyncStorage.setItem(sessionsKey, JSON.stringify(updatedSessions));
+
+      console.log("Manual session saved:", newSession);
+
+      // Call callback if provided
+      if (onSave) {
+        onSave({
+          date: selectedDate.toLocaleDateString(),
+          hours: h,
+          minutes: m,
+          seconds: s,
+          totalSeconds,
+          note: note.trim(),
+        });
+      }
+
+      // Reset form and close modal
+      resetForm();
+      setModalVisible(false);
+    } catch (error) {
+      console.error("Failed to save manual session:", error);
+    }
   };
 
   const resetForm = () => {

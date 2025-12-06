@@ -18,12 +18,7 @@ const DetailsTab = ({ toolId }: DetailsTabProps) => {
       {/* Quick Stats */}
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, { color: colors.text }]}>Quick Stats</Text>
-        <UsageStatistics
-          totalHours={0}
-          hoursSinceService={0}
-          totalSessions={0}
-          avgHoursPerSession={0}
-        />
+        <UsageStatistics toolId={toolId} />
       </View>
     </ScrollView>
   );

@@ -2,8 +2,9 @@ import Title from "@/components/common/Title";
 import AddTool from "@/components/inventory/AddTool";
 import SearchBar from "@/components/SearchBar";
 import { globalStyles, useThemedColors } from "@/styles/globalStyles";
-import { useRouter } from "expo-router";
-import { useMemo, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 interface Tool {
@@ -63,12 +64,45 @@ export default function InventoryScreen() {
   const styles = globalStyles(colors);
   const router = useRouter();
   const [isAddToolVisible, setIsAddToolVisible] = useState(false);
-  const [tools, setTools] = useState<Tool[]>(SAMPLE_TOOLS);
+  const [tools, setTools] = useState<Tool[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  const handleAddTool = (tool: Tool) => {
-    setTools([...tools, tool]);
+  // Load tools from AsyncStorage when screen comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      loadTools();
+    }, [])
+  );
+
+  const loadTools = async () => {
+    try {
+      const toolsJson = await AsyncStorage.getItem("@tools");
+      if (toolsJson) {
+        const loadedTools: Tool[] = JSON.parse(toolsJson);
+        setTools(loadedTools);
+      } else {
+        // Initialize with sample data if no tools exist
+        await AsyncStorage.setItem("@tools", JSON.stringify(SAMPLE_TOOLS));
+        setTools(SAMPLE_TOOLS);
+      }
+    } catch (error) {
+      console.error("Error loading tools:", error);
+      setTools(SAMPLE_TOOLS);
+    }
+  };
+
+  const handleAddTool = async (tool: Tool) => {
+    const updatedTools = [...tools, tool];
+    setTools(updatedTools);
+
+    // Save to AsyncStorage
+    try {
+      await AsyncStorage.setItem("@tools", JSON.stringify(updatedTools));
+      console.log("Tool saved successfully:", tool.name);
+    } catch (error) {
+      console.error("Error saving tool:", error);
+    }
   };
 
   // Get unique categories from tools

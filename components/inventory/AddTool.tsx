@@ -1,4 +1,5 @@
 import DateTimePickerComponent from "@/components/common/DateTimePickerComponent";
+import WriteNfc from "@/components/nfc_util/WriteNfc";
 import { useThemedColors } from "@/styles/globalStyles";
 import * as DocumentPicker from "expo-document-picker";
 import React, { useState } from "react";
@@ -60,11 +61,12 @@ const AddTool = ({ visible, onClose, onAdd }: AddToolProps) => {
   const [manualUri, setManualUri] = useState("");
   const [manualName, setManualName] = useState("");
   const [showCategories, setShowCategories] = useState(false);
+  const [toolId] = useState(Date.now().toString());
 
   const handleAdd = () => {
     if (name.trim()) {
       onAdd({
-        id: Date.now().toString(),
+        id: toolId,
         name,
         brand,
         model,
@@ -98,19 +100,8 @@ const AddTool = ({ visible, onClose, onAdd }: AddToolProps) => {
     onClose();
   };
 
-  const handleAddNFC = () => {
-    // Placeholder for NFC functionality
-    Alert.alert("NFC Tag", "Hold your device near an NFC tag to scan it.", [
-      { text: "Cancel", style: "cancel" },
-      {
-        text: "Scan",
-        onPress: () => {
-          // Mock NFC scan
-          setNfcTag(`NFC_${Date.now()}`);
-          Alert.alert("Success", "NFC tag added successfully!");
-        },
-      },
-    ]);
+  const handleNfcSuccess = (nfcTagId: string) => {
+    setNfcTag(nfcTagId);
   };
 
   const handleUploadManual = async () => {
@@ -314,20 +305,11 @@ const AddTool = ({ visible, onClose, onAdd }: AddToolProps) => {
             {/* NFC Tag */}
             <View style={styles.inputGroup}>
               <Text style={[styles.label, { color: colors.text }]}>NFC Tag</Text>
-              <Pressable
-                style={[
-                  styles.button,
-                  {
-                    backgroundColor: colors.background,
-                    borderColor: colors.border,
-                  },
-                ]}
-                onPress={handleAddNFC}
-              >
+              <WriteNfc toolId={toolId} onSuccess={handleNfcSuccess}>
                 <Text style={[styles.buttonText, { color: nfcTag ? colors.accent : colors.text }]}>
                   {nfcTag ? "✓ NFC Tag Added" : "+ Add NFC Tag"}
                 </Text>
-              </Pressable>
+              </WriteNfc>
             </View>
 
             {/* Add Button */}

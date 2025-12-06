@@ -44,7 +44,7 @@ const SessionManagement = ({ toolId, onSessionSave }: SessionManagementProps) =>
 
         {/* Discrete Manual Session Button */}
         <View style={[styles.manualButtonContainer, { borderTopColor: colors.border }]}>
-          <ManualSession onSave={handleManualSessionSave} />
+          <ManualSession toolId={toolId} onSave={handleManualSessionSave} />
         </View>
       </View>
     </View>

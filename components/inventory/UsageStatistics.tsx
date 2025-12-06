@@ -1,25 +1,73 @@
 import { useThemedColors } from "@/styles/globalStyles";
-import { StyleSheet, Text, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import PlatformIcon from "../PlatformIcon";
 
 interface UsageStatisticsProps {
-  totalHours: number;
-  hoursSinceService: number;
-  totalSessions: number;
-  avgHoursPerSession: number;
+  toolId: string;
 }
 
-const UsageStatistics = ({
-  totalHours,
-  hoursSinceService,
-  totalSessions,
-  avgHoursPerSession,
-}: UsageStatisticsProps) => {
+interface UsageSession {
+  id: string;
+  date: string;
+  timestamp: number;
+  duration: string;
+  hours: number;
+  note?: string;
+  source?: "stopwatch" | "manual";
+}
+
+const UsageStatistics = ({ toolId }: UsageStatisticsProps) => {
   const colors = useThemedColors();
+  const [sessions, setSessions] = useState<UsageSession[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Load sessions when component comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      loadSessions();
+    }, [toolId])
+  );
+
+  const loadSessions = async () => {
+    try {
+      setLoading(true);
+      const sessionsJson = await AsyncStorage.getItem(`@sessions_${toolId}`);
+      if (sessionsJson) {
+        const loadedSessions: UsageSession[] = JSON.parse(sessionsJson);
+        setSessions(loadedSessions);
+      } else {
+        setSessions([]);
+      }
+    } catch (error) {
+      console.error("Error loading sessions:", error);
+      setSessions([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const formatHours = (hours: number) => {
     return hours.toFixed(1);
   };
+
+  // Calculate statistics
+  const totalHours = sessions.reduce((sum, session) => sum + session.hours, 0);
+  const totalSessions = sessions.length;
+  const avgHoursPerSession = totalSessions > 0 ? totalHours / totalSessions : 0;
+
+  // TODO: Implement hours since service (requires maintenance tracking)
+  const hoursSinceService = 0;
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="small" color={colors.accent} />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

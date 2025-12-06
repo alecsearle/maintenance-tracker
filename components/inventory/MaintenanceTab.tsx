@@ -1,11 +1,15 @@
 import PlatformIcon from "@/components/PlatformIcon";
+import LogMaintenance from "@/components/inventory/LogMaintenance";
 import { useThemedColors } from "@/styles/globalStyles";
-import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 interface MaintenanceLog {
   id: string;
   date: string;
+  timestamp: number;
   type: "service" | "repair" | "inspection";
   description: string;
   cost?: string;
@@ -16,34 +20,38 @@ interface MaintenanceTabProps {
   manualName?: string;
 }
 
-// Sample data - replace with actual data from storage
-const SAMPLE_LOGS: MaintenanceLog[] = [
-  {
-    id: "1",
-    date: "Nov 1, 2025",
-    type: "service",
-    description: "Oil change and blade sharpening",
-    cost: "$45.00",
-  },
-  {
-    id: "2",
-    date: "Sep 15, 2025",
-    type: "inspection",
-    description: "Safety check and calibration",
-  },
-  {
-    id: "3",
-    date: "Jul 20, 2025",
-    type: "repair",
-    description: "Replaced worn motor brushes",
-    cost: "$28.50",
-  },
-];
-
 const MaintenanceTab = ({ toolId, manualName }: MaintenanceTabProps) => {
   const colors = useThemedColors();
-  const [logs] = useState<MaintenanceLog[]>(SAMPLE_LOGS);
+  const [logs, setLogs] = useState<MaintenanceLog[]>([]);
   const [showOverdueAlert] = useState(true);
+  const [showLogModal, setShowLogModal] = useState(false);
+
+  // Load maintenance logs when tab comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      loadLogs();
+    }, [toolId])
+  );
+
+  const loadLogs = async () => {
+    try {
+      const logsJson = await AsyncStorage.getItem(`@maintenance_${toolId}`);
+      if (logsJson) {
+        const loadedLogs: MaintenanceLog[] = JSON.parse(logsJson);
+        setLogs(loadedLogs);
+      } else {
+        setLogs([]);
+      }
+    } catch (error) {
+      console.error("Error loading maintenance logs:", error);
+      setLogs([]);
+    }
+  };
+
+  const handleLogSaved = (newLog: MaintenanceLog) => {
+    // Refresh the logs list
+    loadLogs();
+  };
 
   const getTypeColor = (type: MaintenanceLog["type"]) => {
     switch (type) {
@@ -159,7 +167,10 @@ const MaintenanceTab = ({ toolId, manualName }: MaintenanceTabProps) => {
             </View>
           ))
         )}
-        <Pressable style={[styles.addLogButton, { borderColor: colors.border }]}>
+        <Pressable
+          style={[styles.addLogButton, { borderColor: colors.border }]}
+          onPress={() => setShowLogModal(true)}
+        >
           <Text style={[styles.addLogButtonText, { color: colors.accent }]}>
             + Add Maintenance Log
           </Text>
@@ -273,6 +284,14 @@ const MaintenanceTab = ({ toolId, manualName }: MaintenanceTabProps) => {
           </Text>
         </Pressable>
       </View>
+
+      {/* Log Maintenance Modal */}
+      <LogMaintenance
+        visible={showLogModal}
+        onClose={() => setShowLogModal(false)}
+        onSave={handleLogSaved}
+        toolId={toolId}
+      />
     </ScrollView>
   );
 };

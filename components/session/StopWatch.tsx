@@ -157,12 +157,66 @@ const StopWatch = ({ toolId, onTimeUpdate }: StopWatchProps) => {
   };
 
   const handleEndSession = async () => {
+    // Save session to history before clearing
+    await saveSessionToHistory(time);
+
     setIsRunning(false);
     setSessionStarted(false);
     setTime(0);
     await clearPersistedState();
     if (onTimeUpdate) {
       onTimeUpdate(0);
+    }
+  };
+
+  const saveSessionToHistory = async (milliseconds: number) => {
+    try {
+      const totalSeconds = Math.floor(milliseconds / 1000);
+      if (totalSeconds === 0) {
+        return; // Don't save empty sessions
+      }
+
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      // Format duration string
+      let duration = "";
+      if (hours > 0) {
+        duration += `${hours}h `;
+      }
+      if (minutes > 0 || hours > 0) {
+        duration += `${minutes}m`;
+      }
+      if (hours === 0 && minutes === 0) {
+        duration += `${seconds}s`;
+      }
+      duration = duration.trim();
+
+      const now = Date.now();
+      const newSession = {
+        id: `session_${now}`,
+        date: new Date(now).toLocaleDateString(),
+        timestamp: now,
+        duration: duration,
+        hours: totalSeconds / 3600, // Convert to decimal hours
+        source: "stopwatch",
+      };
+
+      // Load existing sessions
+      const sessionsKey = `@sessions_${toolId}`;
+      const existingSessionsJson = await AsyncStorage.getItem(sessionsKey);
+      const existingSessions = existingSessionsJson ? JSON.parse(existingSessionsJson) : [];
+
+      // Add new session at the beginning (most recent first)
+      const updatedSessions = [newSession, ...existingSessions];
+
+      // Save back to storage
+      await AsyncStorage.setItem(sessionsKey, JSON.stringify(updatedSessions));
+
+      console.log("Session saved to history:", newSession);
+    } catch (error) {
+      console.error("Failed to save session to history:", error);
     }
   };
 
